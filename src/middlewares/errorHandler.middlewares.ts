@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Prisma } from "@prisma/client";
-import { AppError, NotFoundError } from "@utils/errors";
+import { AppError, NotFoundError, ValidationError } from "@utils/errors";
 import logger from "@logger";
 import { env } from "@config/env";
 
@@ -11,7 +11,7 @@ interface ErrorResponse {
   stack?: string;
 }
 
-export const errorHandler = (
+export const globalErrorHandler = (
   err: Error,
   _req: Request,
   res: Response,
@@ -70,6 +70,21 @@ export const errorHandler = (
   }
 
   res.status(statusCode).json(response);
+};
+
+export const fileUploadErrorHandler = (
+  err: Error,
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (err instanceof ValidationError) {
+    res.status(400).json({
+      message: "File upload validation failed",
+      details: err.errors,
+    });
+  }
+  next(err);
 };
 
 export const notFoundHandler = (

@@ -4,7 +4,8 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 import {
-  errorHandler,
+  fileUploadErrorHandler,
+  globalErrorHandler,
   notFoundHandler,
 } from "@middlewares/errorHandler.middlewares";
 
@@ -37,7 +38,8 @@ app.get("/", (req, res) => {
 /* app.use("/api/v1", apiV1Router);
 app.use("/api/external", apiServiceRouter); */
 
+app.use(fileUploadErrorHandler);
+app.use(globalErrorHandler);
 app.use(notFoundHandler);
-app.use(errorHandler);
 
 export default app;
