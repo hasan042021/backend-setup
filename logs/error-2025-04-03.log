@@ -1,0 +1,16 @@
+2025-04-03 03:34:07 [DEBUG]: Debug log test!
+2025-04-03 03:34:24 [ERROR]: Route /favicon.ico not found not found - Error: Route /favicon.ico not found not found
+    at new NotFoundError (C:\Docusign\Server_docusign\src\utils\errors.ts:22:5)
+    at notFoundHandler (C:\Docusign\Server_docusign\src\middlewares\errorHandler.middlewares.ts:80:17)
+    at Layer.handleRequest (C:\Docusign\Server_docusign\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Docusign\Server_docusign\node_modules\router\index.js:342:13)
+    at C:\Docusign\Server_docusign\node_modules\router\index.js:297:9
+    at processParams (C:\Docusign\Server_docusign\node_modules\router\index.js:582:12)
+    at next (C:\Docusign\Server_docusign\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Docusign\Server_docusign\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:518:28)
+    at SendStream.error (C:\Docusign\Server_docusign\node_modules\send\index.js:168:17)
+2025-04-03 03:34:28 [DEBUG]: Debug log test!
+2025-04-03 03:34:41 [DEBUG]: Debug log test!
+2025-04-03 03:34:59 [DEBUG]: Debug log test!
+2025-04-03 03:45:17 [DEBUG]: Debug log test!

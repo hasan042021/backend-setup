@@ -3,12 +3,16 @@ import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
+import {
+  errorHandler,
+  notFoundHandler,
+} from "@middlewares/errorHandler.middlewares";
 
 const corsOptions = {
-  origin: [], // Ensure this matches your frontend
-  credentials: true, // Allow cookies and credentials
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allowed methods
-  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  origin: ["*"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 const app = express();
@@ -31,9 +35,9 @@ app.get("/", (req, res) => {
 });
 
 /* app.use("/api/v1", apiV1Router);
-app.use("/api/external", apiServiceRouter);
+app.use("/api/external", apiServiceRouter); */
 
 app.use(notFoundHandler);
-app.use(errorHandler); */
+app.use(errorHandler);
 
 export default app;

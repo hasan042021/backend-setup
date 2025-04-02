@@ -14,21 +14,21 @@ if (!fs.existsSync(logsDir)) {
 
 // Create logger instance
 const logger = createLogger({
-  level: process.env.LOG_LEVEL || "debug", // Make log level configurable
+  level: process.env.LOG_LEVEL || "debug",
   format: format.combine(
-    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }), // Add timestamp
+    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     format.printf(({ timestamp, level, message, stack }) => {
-      return `${timestamp} [${level.toUpperCase()}]: ${stack || message}`; // Format log output
-    })
+      return `${timestamp} [${level.toUpperCase()}]: ${stack || message}`;
+    }),
   ),
   transports: [
     new DailyRotateFile({
       filename: "logs/error-%DATE%.log",
       datePattern: "YYYY-MM-DD",
-      maxSize: "10m", // Max 10MB per file
-      maxFiles: "14d", // Keep logs for 14 days
+      maxSize: "10m",
+      maxFiles: "14d",
     }),
-    new transports.Console(), // Show logs in the terminal (optional)
+    new transports.Console(),
   ],
 });
 
