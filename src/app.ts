@@ -8,6 +8,7 @@ import {
   globalErrorHandler,
   notFoundHandler,
 } from "@middlewares/errorHandler.middlewares";
+import apiRoutes from "@api/index";
 
 const corsOptions = {
   origin: ["*"],
@@ -35,8 +36,7 @@ app.get("/", (req, res) => {
   res.send("Route is working! YaY!");
 });
 
-/* app.use("/api/v1", apiV1Router);
-app.use("/api/external", apiServiceRouter); */
+app.use("/api/", apiRoutes);
 
 app.use(fileUploadErrorHandler);
 app.use(globalErrorHandler);

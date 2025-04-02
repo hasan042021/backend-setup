@@ -54,5 +54,4 @@ export const createFileFilter =
     }
   };
 
-// Export default upload directory
 export const DEFAULT_UPLOAD_DIRECTORY = DEFAULT_UPLOAD_DIR;

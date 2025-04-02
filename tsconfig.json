@@ -15,11 +15,13 @@
       "@modules/*": ["./src/modules/*"],
       "@controllers/*": ["./src/modules/*/controller"],
       "@services/*": ["./src/modules/*/service"],
+      "@repositories/*": ["./src/modules/*/repository"],
       "@models/*": ["./src/modules/*/model"],
       "@middlewares/*": ["./src/middlewares/*"],
       "@utils/*": ["./src/utils/*"],
       "@uploads/*": ["./uploads/*"],
       "@logger": ["./src/logger.ts"],
+      "@api/*": ["./src/api/*"],
       "@types/*": ["./src/types/*"] // ✅ Alias for custom types
     },
     "types": [
