@@ -1,4 +1,3 @@
-
 datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
@@ -8,8 +7,165 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  documents Document[]
+}
+
+model Document {
+  id            String         @id @default(uuid())
+  title         String
+  filePath      String
+  fileSize      Int
+  status        DocumentStatus @default(DRAFT)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  adminId       String
+  finalDocument FinalDocument?
+
+  recipients Recipient[]
+  fields     Field[]
+  auditLogs  AuditLog[]
+  admin      Admin       @relation(fields: [adminId], references: [id])
+}
+
+model FinalDocument {
+  id          String   @id @default(uuid())
+  documentId  String   @unique
+  downloadUrl String
+  createdAt   DateTime @default(now())
+
+  document Document @relation(fields: [documentId], references: [id])
+}
+
+model Recipient {
+  id           String          @id @default(uuid())
+  fullName     String
+  email        String
+  notes        String?
+  signingOrder Int
+  status       RecipientStatus @default(NOT_STARTED)
+  emailSentAt  DateTime?
+  openedAt     DateTime?
+  signedAt     DateTime?
+  token        String?
+  tokenExpiry  DateTime?
+  documentId   String
+
+  document Document @relation(fields: [documentId], references: [id])
+
+  contactId String?
+  contact   Contact? @relation(fields: [contactId], references: [id])
+
+  fields    Field[]
+  auditLogs AuditLog[]
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  fullName  String
+  email     String   @unique
+  notes     String?
+  createdAt DateTime @default(now())
+
+  recipients Recipient[]
+}
+
+model Field {
+  id                    String        @id @default(uuid())
+  type                  FieldType
+  page                  Int
+  x                     Float
+  y                     Float
+  width                 Float
+  height                Float
+  assignedTo            FieldAssignee
+  recipientId           String?
+  documentId            String
+  value                 String?
+  signature             Signature?
+  fieldGroupId          String?
+  isEditableByRecipient Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+
+  fieldGroup FieldGroup? @relation(fields: [fieldGroupId], references: [id])
+  document   Document    @relation(fields: [documentId], references: [id])
+  recipient  Recipient?  @relation(fields: [recipientId], references: [id])
+}
+
+model Signature {
+  id      String @id @default(uuid())
+  fieldId String @unique
+  field   Field  @relation(fields: [fieldId], references: [id])
+
+  type      SignatureType
+  value     String
+  font      String?
+  createdAt DateTime      @default(now())
+}
+
+model FieldGroup {
+  id        String   @id @default(uuid())
+  value     Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fields Field[]
+}
+
+model AuditLog {
+  id         String     @id @default(uuid())
+  event      AuditEvent
+  createdAt  DateTime   @default(now())
+  documentId String
+  document   Document   @relation(fields: [documentId], references: [id])
+
+  recipientId String?
+  recipient   Recipient? @relation(fields: [recipientId], references: [id])
+}
+
+enum DocumentStatus {
+  DRAFT
+  READY_TO_SEND
+  SENT
+  PARTIALLY_SIGNED
+  WAITING_FOR_NEXT
+  FULLY_SIGNED
+  EXPIRED
+  CANCELLED
+}
+
+enum RecipientStatus {
+  NOT_STARTED
+  OPENED
+  SIGNED
+}
+
+enum FieldType {
+  SIGNATURE
+  INITIALS
+  DATE_SIGNED
+  TEXT
+}
+
+enum FieldAssignee {
+  ADMIN
+  RECIPIENT
+}
+
+enum SignatureType {
+  TYPED
+  DRAWN
+  AUTO_GENERATED
+}
+
+enum AuditEvent {
+  EMAIL_SENT
+  LINK_OPENED
+  SIGNED
 }

@@ -21,7 +21,7 @@
       "@utils/*": ["./src/utils/*"],
       "@uploads/*": ["./uploads/*"],
       "@logger": ["./src/logger.ts"],
-      "@api/*": ["./src/api/*"],
+      "@versions/*": ["src/versions/*"],
       "@types/*": ["./src/types/*"] // ✅ Alias for custom types
     },
     "types": [

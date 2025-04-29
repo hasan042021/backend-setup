@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
   res.send("Route is working! YaY!");
 });
 
-app.use("/api/", apiRoutes);
+app.use("/api", apiRoutes);
 
 app.use(fileUploadErrorHandler);
 app.use(globalErrorHandler);
